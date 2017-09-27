@@ -1,9 +1,10 @@
+# ZCF is custom, so there should be nothing in there.
 class HL7::Message::Segment::ZCF < HL7::Message::Segment
   weight 1000
 
-  add_field :id
-  add_field :ownership
-  add_field :value
+  alias_field :id, :custom_field_1
+  alias_field :ownership, :custom_field_2
+  alias_field :value, :custom_field_3
 
   add_field :custom_field_1
   add_field :custom_field_2
