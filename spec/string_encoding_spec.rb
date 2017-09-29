@@ -11,7 +11,7 @@ describe 'String hl7' do
   end
 
   it 'decoding' do
-    "&^\\|\r\n".encode_hl7.decode_hl7.should == "&^\\|\r\n"
+    "&^\\|\r\n".encode_hl7.decode_hl7.should == "&^\\|\n"
   end
 
 end

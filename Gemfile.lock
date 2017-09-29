@@ -1,12 +1,21 @@
 GEM
-  remote: http://gems.github.com/
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
+    byebug (9.0.6)
+    coderay (1.1.1)
     diff-lcs (1.2.5)
     git (1.2.5)
     json_pure (1.5.0)
+    method_source (0.8.2)
     multi_json (1.5.0)
-    rake (10.0.3)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-byebug (3.4.2)
+      byebug (~> 9.0)
+      pry (~> 0.10)
+    rake (11.3.0)
     rdoc (3.9.4)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
@@ -22,17 +31,25 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
+    slop (3.6.0)
     technicalpickles-jeweler (1.2.1)
       git (>= 1.2.1)
       rubyforge
 
 PLATFORMS
+  java
   ruby
+  x86-mingw32
 
 DEPENDENCIES
-  rake (~> 10.0.3)
+  pry
+  pry-byebug
+  rake (~> 11.0)
   rdoc
   rspec (~> 2.99.0)
   rubyforge
   simplecov
   technicalpickles-jeweler
+
+BUNDLED WITH
+   1.15.4

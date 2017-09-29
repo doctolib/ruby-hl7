@@ -1,5 +1,4 @@
 # encoding: UTF-8
-require 'ruby-hl7'
 class HL7::Message::Segment::PID < HL7::Message::Segment
   weight 1
   has_children [:NK1,:NTE,:PV1,:PV2]
@@ -12,7 +11,15 @@ class HL7::Message::Segment::PID < HL7::Message::Segment
   add_field :patient_dob do |value|
     convert_to_ts(value)
   end
-  add_field :admin_sex
+
+  add_field :admin_sex do |sex|
+    unless /^[FMOUANC]$/.match(sex) || sex == nil || sex == ""
+      raise HL7::InvalidDataError.new("bad administrative sex value (not F|M|O|U|A|N|C)")
+    end
+    sex = "" unless sex
+    sex
+  end
+
   add_field :patient_alias
   add_field :race
   add_field :address
