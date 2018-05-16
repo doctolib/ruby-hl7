@@ -36,6 +36,11 @@ module HL7::Message::SegmentFields
       end
 
       self.class_eval <<-END
+        if :#{name} != :name
+          remove_method(:#{name}) if method_defined?(:#{name})
+          remove_method(:"#{name}=") if method_defined?(:"#{name}=")
+        end
+
         def #{name}(val=nil)
           unless val
             read_field( :#{namesym} )
@@ -80,7 +85,12 @@ module HL7::Message::SegmentFields
     field_blk = nil
     idx = name # assume we've gotten a integer
     unless name.kind_of?(Integer)
-      fld_info = self.class.fields[ name ]
+      begin
+        fld_info = self.class.fields[ name ]
+      rescue TypeError
+        p self.class.fields
+        raise
+      end
       idx = fld_info[:idx].to_i
       field_blk = fld_info[:blk]
     end
