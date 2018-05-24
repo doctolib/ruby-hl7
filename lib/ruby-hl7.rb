@@ -22,8 +22,25 @@ require 'date'
 
 module HL7 # :nodoc:
   VERSION = '1.2.3'
-  def self.ParserConfig
-    @parser_cfg ||= { :empty_segment_is_error => true }
+
+  class << self
+    def ParserConfig
+      @parser_cfg ||= { :empty_segment_is_error => true }
+    end
+
+    def configure
+      yield(configuration_instance)
+    end
+
+    def configuration
+      configuration_instance.to_h
+    end
+
+    private
+
+    def configuration_instance
+      @_configuration_instance ||= Configuration.new
+    end
   end
 end
 
@@ -48,6 +65,7 @@ end
 class HL7::EmptySegmentNotAllowed < HL7::ParseError
 end
 
+require 'configuration'
 require 'message_parser'
 require 'message'
 require 'segment_list_storage'
