@@ -19,7 +19,7 @@ describe 'enforce encoding' do
 
       msg.enforce_encoding!
 
-      expect(msg.encoding.name).to eql(msg[:MSH.charset])
+      expect(@gen.to_s.encoding.name).to eql(msg[:MSH].charset)
     end
   end
 end

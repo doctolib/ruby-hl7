@@ -196,6 +196,9 @@ class HL7::Message
     end
   end
 
+  def enforce_encoding!
+  end
+
   private
   def generate_segments( ary )
     raise HL7::ParseError.new( "no array to generate segments" ) unless ary.length > 0
