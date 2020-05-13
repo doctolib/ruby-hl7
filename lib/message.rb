@@ -29,6 +29,7 @@
 #  puts "message type: %s" % msg[:MSH].message_type
 #
 #
+
 class HL7::Message
   include Enumerable # we treat an hl7 2.x message as a collection of segments
   extend HL7::MessageBatchParser
@@ -38,6 +39,8 @@ class HL7::Message
   attr :item_delim
   attr :segment_delim
   attr :delimiter
+
+  POSSIBLE_ENCODINGS = ["UTF-8", "ISO-8859-1"]
 
   # setup a new hl7 message
   # raw_msg:: is an optional object containing an hl7 message
@@ -65,7 +68,6 @@ class HL7::Message
     if inobj.kind_of?(String)
       encoding = inobj.detect_encoding
       generate_segments( message_parser.parse_string( inobj.dup.force_encoding(encoding).encode(encoding) ))
-      enforce_encoding!
     elsif inobj.respond_to?(:each)
       generate_segments_enumerable(inobj)
     else
@@ -232,6 +234,11 @@ class HL7::Message
                                                             @delimiter )
 
     return nil unless segment_generator.valid_segments_parts?
+    if self[:MSH] && POSSIBLE_ENCODINGS.include?(self[:MSH].charset)
+      current_encoding = segment_generator.element.encoding.to_s
+      encoding = self[:MSH].charset
+      segment_generator.element.force_encoding(current_encoding).encode!(encoding)
+    end
     segment_generator.seg_name = segment_generator.seg_parts[0]
 
     new_seg = segment_generator.build
