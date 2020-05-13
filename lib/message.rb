@@ -200,10 +200,12 @@ class HL7::Message
     end
   end
 
-  def enforce_encoding!
+  def enforce_encoding!(element)
+    return unless self[:MSH] && POSSIBLE_ENCODINGS.include?(self[:MSH].charset)
+
+    current_encoding = element.encoding.to_s
     encoding = self[:MSH].charset
-    to_s.force_encoding(encoding).encode(encoding)
-    # self
+    element.force_encoding(current_encoding).encode!(encoding)
   end
 
   private
@@ -234,11 +236,7 @@ class HL7::Message
                                                             @delimiter )
 
     return nil unless segment_generator.valid_segments_parts?
-    if self[:MSH] && POSSIBLE_ENCODINGS.include?(self[:MSH].charset)
-      current_encoding = segment_generator.element.encoding.to_s
-      encoding = self[:MSH].charset
-      segment_generator.element.force_encoding(current_encoding).encode!(encoding)
-    end
+    enforce_encoding!(segment_generator.element)
     segment_generator.seg_name = segment_generator.seg_parts[0]
 
     new_seg = segment_generator.build
