@@ -58,6 +58,10 @@ class String
     self.gsub("\\E\\", '\\').gsub("\\F\\", '|').gsub("\\T\\", '&').gsub("\\R\\", '~').gsub("\\S\\", '^').gsub("\\.br\\", "\n")
   end
 
+  def detect_encoding
+    valid_encoding? ? "UTF-8" : "ISO-8859-1"
+  end
+
 end
 
 require 'message_parser'

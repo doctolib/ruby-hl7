@@ -63,7 +63,9 @@ class HL7::Message
 
   def parse( inobj )
     if inobj.kind_of?(String)
-      generate_segments( message_parser.parse_string( inobj ))
+      encoding = inobj.detect_encoding
+      generate_segments( message_parser.parse_string( inobj.dup.force_encoding(encoding).encode(encoding) ))
+      enforce_encoding!
     elsif inobj.respond_to?(:each)
       generate_segments_enumerable(inobj)
     else
@@ -197,6 +199,9 @@ class HL7::Message
   end
 
   def enforce_encoding!
+    encoding = self[:MSH].charset
+    to_s.force_encoding(encoding).encode(encoding)
+    # self
   end
 
   private
@@ -271,5 +276,6 @@ class HL7::Message
    def get_symbol_from_name(seg_name)
     seg_name.to_s.strip.length > 0 ? seg_name.to_sym : nil
   end
+
 
 end
