@@ -28,7 +28,9 @@ describe 'enforce encoding' do
     it 'retains encoding of message' do
       msg = HL7::Message.new(@without_multibyte)
 
-      expect(msg.to_s.encoding.name).to eql(msg[:MSH].charset.strip)
+      msg.enforce_encoding!
+
+      expect(msg.to_s.encoding.name).to eql(msg[:MSH].charset)
     end
   end
 
@@ -36,13 +38,17 @@ describe 'enforce encoding' do
     it 'enforces UTF-8 on the message' do
       msg = HL7::Message.new(@with_multibyte)
 
+      msg.enforce_encoding!
+
       expect(msg.to_s.encoding.name).to eql(msg[:MSH].charset)
-      expect(msg.to_s).to include("Joaquín")
+      expect(msg.to_s).to include('Joaquín')
       expect(msg.to_s).not_to include("Joaqu\xEDn")
     end
 
     it 'is expected to have a valid encoding' do
       msg = HL7::Message.new(@with_multibyte)
+
+      msg.enforce_encoding!
 
       expect(msg.to_s).to be_valid_encoding
     end
@@ -50,15 +56,19 @@ describe 'enforce encoding' do
 
   context 'when msh charset is ISO-8859-1 and text has multibyte' do
     it 'enforces charset on the message' do
-      msg = HL7::Message.new(@with_multibyte.sub("UTF-8", "ISO-8859-1"))
+      msg = HL7::Message.new(@with_multibyte.sub('UTF-8', 'ISO-8859-1'))
+
+      msg.enforce_encoding!
 
       expect(msg.to_s.encoding.name).to eql(msg[:MSH].charset)
-      expect(msg.to_s).to include("Joaqu\xEDn".force_encoding("ISO-8859-1"))
-      expect(msg.to_s).not_to include("Joaquín".force_encoding("ISO-8859-1"))
+      expect(msg.to_s).to include("Joaqu\xEDn".force_encoding('ISO-8859-1'))
+      expect(msg.to_s).not_to include('Joaquín'.force_encoding('ISO-8859-1'))
     end
 
     it 'is expected to have a valid encoding' do
-      msg = HL7::Message.new(@with_multibyte.sub("UTF-8", "ISO-8859-1"))
+      msg = HL7::Message.new(@with_multibyte.sub('UTF-8', 'ISO-8859-1'))
+
+      msg.enforce_encoding!
 
       expect(msg.to_s).to be_valid_encoding
     end
