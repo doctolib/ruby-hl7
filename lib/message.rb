@@ -67,7 +67,7 @@ class HL7::Message
   def parse( inobj )
     if inobj.kind_of?(String)
       encoding = inobj.detect_encoding
-      generate_segments( message_parser.parse_string( inobj.dup.force_encoding(encoding).encode(encoding) ))
+      generate_segments( message_parser.parse_string( inobj.dup.force_encoding(encoding) ))
     elsif inobj.respond_to?(:each)
       generate_segments_enumerable(inobj)
     else
