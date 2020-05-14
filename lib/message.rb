@@ -29,7 +29,6 @@
 #  puts "message type: %s" % msg[:MSH].message_type
 #
 #
-
 class HL7::Message
   include Enumerable # we treat an hl7 2.x message as a collection of segments
   extend HL7::MessageBatchParser
@@ -66,8 +65,7 @@ class HL7::Message
 
   def parse( inobj )
     if inobj.kind_of?(String)
-      encoding = inobj.detect_encoding
-      generate_segments( message_parser.parse_string( inobj.dup.force_encoding(encoding) ))
+      generate_segments( message_parser.parse_string( inobj ))
     elsif inobj.respond_to?(:each)
       generate_segments_enumerable(inobj)
     else
