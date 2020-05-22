@@ -39,6 +39,8 @@ class HL7::Message
   attr :segment_delim
   attr :delimiter
 
+  POSSIBLE_ENCODINGS = ["UTF-8", "ISO-8859-1"]
+
   # setup a new hl7 message
   # raw_msg:: is an optional object containing an hl7 message
   #           it can either be a string or an Enumerable object
@@ -196,6 +198,18 @@ class HL7::Message
     end
   end
 
+  def enforce_encoding!
+    return unless self[:MSH] && POSSIBLE_ENCODINGS.include?(self[:MSH].charset)
+
+    current_encoding = to_s.encoding.name
+    encoding = self[:MSH].charset
+    return nil if current_encoding == encoding
+
+    @segments = @segments.map do |seg|
+      seg.enforce_encoding!(current_encoding, encoding)
+    end
+  end
+
   private
   def generate_segments( ary )
     raise HL7::ParseError.new( "no array to generate segments" ) unless ary.length > 0
@@ -268,5 +282,6 @@ class HL7::Message
    def get_symbol_from_name(seg_name)
     seg_name.to_s.strip.length > 0 ? seg_name.to_sym : nil
   end
+
 
 end

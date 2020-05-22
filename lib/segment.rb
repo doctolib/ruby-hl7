@@ -154,6 +154,12 @@ class HL7::Message::Segment
     self.respond_to?(:children)
   end
 
+  def enforce_encoding!(current_encoding, encoding)
+    @elements = @elements.map do |element|
+      element.force_encoding(current_encoding).encode(encoding)
+    end
+  end
+
   private
   def self.singleton #:nodoc:
     class << self; self end
