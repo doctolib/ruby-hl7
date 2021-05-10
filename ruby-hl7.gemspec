@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby-hl7}
-  s.version = "1.2.3"
+  s.version = "1.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mark Guzman"]
@@ -28,11 +28,12 @@ Gem::Specification.new do |s|
   s.summary = %q{Ruby HL7 Library}
   s.license = "MIT"
 
-  s.add_dependency 'rake', '~> 13.0'
-  s.add_dependency 'rdoc', '> 5.0'
-
-  s.add_development_dependency 'bundler', '~> 1.15'
-  s.add_development_dependency 'simplecov', '~> 0.15'
-  s.add_development_dependency 'rspec', '~> 2.99'
+  s.add_development_dependency 'bundler', '~> 1.17'
   s.add_development_dependency 'pry'
+  s.add_development_dependency 'rake', '>= 12.3.3'
+  s.add_development_dependency 'rdoc', '~> 3.12'
+  s.add_development_dependency 'rspec', '>= 3.9.0'
+  s.add_development_dependency 'simplecov', '= 0.16.1'
+  s.add_development_dependency 'simplecov-html', '~> 0.10.0'
+  s.add_development_dependency 'rake-contrib'
 end

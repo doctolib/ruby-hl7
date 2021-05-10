@@ -1,5 +1,39 @@
 ## Overview
 
+**Version 1.3.2**
+Added GT1 segment
+Updated dependencies
+
+https://github.com/ruby-hl7/ruby-hl7/pull/111
+https://github.com/ruby-hl7/ruby-hl7/pull/108
+
+Thanks to:
+@gusIreland
+
+**Version 1.3.1**
+Added FT1 segment
+Updated gemspec dependencies
+
+https://github.com/ruby-hl7/ruby-hl7/pull/102
+https://github.com/ruby-hl7/ruby-hl7/pull/94
+
+Thanks to:
+@raulperezalejo @anujbiyani
+
+**Version 1.3.0**
+Removed ZCF segment
+Renamed PID-12 from country_code to county_code (deprecation warnings)
+Bumped gem dependency versions
+
+https://github.com/ruby-hl7/ruby-hl7/pull/90
+https://github.com/ruby-hl7/ruby-hl7/pull/91
+https://github.com/ruby-hl7/ruby-hl7/pull/93
+https://github.com/ruby-hl7/ruby-hl7/pull/95
+https://github.com/ruby-hl7/ruby-hl7/pull/97
+
+Thanks to:
+@mogox @rclavel @mullican
+
 **Version 1.2.3**
 New Segments:
 AIG
